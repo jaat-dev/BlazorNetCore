@@ -1,0 +1,56 @@
+﻿@page "/customer-delete"
+@page "/customer-delete/{id:int}"
+@using Services
+@using Data.Entities
+@inject ICostumerService CustomerService
+@using Models
+@inject NavigationManager NavigationManager
+
+<h3>Eliminar Clientes</h3>
+
+<h3 style="color:red">Are you sure you want to delete employee with id : @id</h3>
+<br />
+<div class="col-md-4">
+    <table class="table">
+        <tr>
+            <td>Identificación:</td>
+            <td>@customer.Customer_id</td>
+        </tr>
+        <tr>
+            <td>Nombre:</td>
+            <td>@customer.Customer_name</td>
+        </tr>
+        <tr>
+            <td>Ciudad</td>
+            <td>@customer.Customer_city</td>
+        </tr>
+    </table>
+    <div class="form-group">
+        <input type="submit" value="Eliminar" @onclick="(async () => await Delete())" class="btn btn-danger" role="button"/>
+        <input type="submit" value="Regresar" @onclick="cancel" class="btn btn-dark" role="button"/>
+    </div>
+</div>
+
+@functions {
+    [Parameter]
+    public int id { get; set; }
+
+    Customer customer = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ResponseCustomer result = await CustomerService.GetCustomerDetail(id);
+        customer = result.Data;
+    }
+
+    protected async Task Delete()
+    {
+        await CustomerService.DeleteCustomer(id);
+        NavigationManager.NavigateTo("/customer-list");
+    }
+
+    void cancel()
+    {
+        NavigationManager.NavigateTo("/customer-list");
+    }
+}    

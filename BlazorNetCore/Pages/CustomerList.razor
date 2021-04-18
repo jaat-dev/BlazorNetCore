@@ -1,0 +1,76 @@
+﻿@page "/customer-list"
+@using Services
+@using Data.Entities
+@inject ICostumerService CustomerService
+@using Models
+@inject NavigationManager NavigationManager
+
+<h3>Listado de Clientes</h3>
+
+<p>
+    <a class="btn btn-primary btn-sm" href="/customer-add" role="button">
+        <i class="bi bi-person-plus-fill"></i> Clientes
+    </a>
+</p>
+
+
+@if (result.IsSuccess)
+{
+    @if (result.Data == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table width="100%" class="table">
+            <thead>
+                <tr>
+                    <th>Identificación</th>
+                    <th>Nombre</th>
+                    <th>Ciudad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var costumer in result.Data)
+                {
+                    <tr>
+                        <td>@costumer.Customer_id</td>
+                        <td>@costumer.Customer_name</td>
+                        <td>@costumer.Customer_city</td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="/customer-add/@costumer.Id" role="button">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a class="btn btn-danger btn-sm" value="@costumer.Id" role="button" href="/customer-delete/@costumer.Id">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+else
+{
+    <br>
+    <h2>Se ha presentado un error inesperado!...</h2>
+    <br>
+    <h3>@result.Message</h3>
+}
+
+@code {
+    private Models.ResponseCustomers result;
+
+    protected override async Task OnInitializedAsync()
+    {
+        result = await CustomerService.GetAllCustomers();
+    }
+
+    protected async Task DeleteCustomer(int id)
+    {
+        await CustomerService.DeleteCustomer(id);
+        NavigationManager.NavigateTo("/customer-list");
+    }
+}
