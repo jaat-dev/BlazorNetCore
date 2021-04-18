@@ -1,0 +1,75 @@
+﻿@using Data.Entities;
+
+<EditForm Model="@customer" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="card">
+        <div class="card-header">
+            Clientes
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-2">
+                    <div class="mb-3 row">
+                        <label for="customerId" class="col-sm-12 col-form-label align-content-end">Identificación</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="mb-3 row">
+                        <div class="col-sm-4">
+                            <InputText class="form-control" @bind-Value="customer.Customer_id" id="customerId" />
+                            <ValidationMessage For="@(()=>customer.Customer_id)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-2">
+                    <div class="mb-3 row" style="text-align:left !important">
+                        <label for="customerName" class="col-sm-12 col-form-label">Nombre</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="mb-3 row">
+                        <div class="col-sm-8">
+                            <InputText class="form-control" @bind-Value="customer.Customer_name" id="customerName" />
+                            <ValidationMessage For="@(()=>customer.Customer_name)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-2">
+                    <div class="mb-3 row">
+                        <label for="customerCity" class="col-sm-12 col-form-label">Ciudad</label>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="mb-3 row">
+                        <div class="col-sm-8">
+                            <InputText class="form-control" @bind-Value="customer.Customer_city" id="customerCity" />
+                            <ValidationMessage For="@(()=>customer.Customer_city)" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-2"></div>
+                <div class="col-9">
+                    <button type="submit" class="btn btn-primary btn-sm">@ButtonText</button>
+                    <a href="/customer-list" class="btn btn-dark btn-sm">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public Customer customer { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

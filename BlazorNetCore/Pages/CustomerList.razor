@@ -9,7 +9,7 @@
 
 <p>
     <a class="btn btn-primary btn-sm" href="/customer-add" role="button">
-        <i class="bi bi-person-plus-fill"></i> Clientes
+        <i class="oi oi-person"></i> Clientes
     </a>
 </p>
 
@@ -39,8 +39,8 @@
                         <td>@costumer.Customer_name</td>
                         <td>@costumer.Customer_city</td>
                         <td>
-                            <a class="btn btn-warning btn-sm" href="/customer-add/@costumer.Id" role="button">
-                                <i class="bi bi-pencil-square"></i>
+                            <a class="btn btn-warning btn-sm" href="/customer-edit/@costumer.Id" role="button">
+                                <i class="bi bi-box-arrow-in-right"></i>@*bi bi-folder-symlink*@
                             </a>
                             <a class="btn btn-danger btn-sm" value="@costumer.Id" role="button" href="/customer-delete/@costumer.Id">
                                 <i class="bi bi-trash"></i>

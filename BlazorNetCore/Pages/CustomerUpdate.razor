@@ -1,0 +1,30 @@
+﻿@page "/customer-edit"
+@page "/customer-edit/{id:int}"
+@using Services
+@using Data.Entities
+@inject ICostumerService CustomerService
+@using Models
+@inject NavigationManager NavigationManager
+
+<h3>Actualizar Clientes</h3>
+
+<CustomerForm ButtonText="Update" customer="customer"
+              OnValidSubmit="@EditDeveloper" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Customer customer = new();
+    private ResponseCustomer result;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        result = await CustomerService.GetCustomerDetail(id);
+        customer = result.Data;
+    }
+
+    async Task EditDeveloper()
+    {
+        await CustomerService.SaveCustomer(customer);
+        NavigationManager.NavigateTo("/customer-list");
+    }
+}
